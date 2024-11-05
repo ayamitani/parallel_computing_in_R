@@ -1,7 +1,5 @@
 #!/bin/bash
 #SBATCH --nodes=1                # number of node MUST be 1
-#SBATCH --ntasks-per-node=40
-#SBATCH --cpus-per-task=4        # number of processes
 #SBATCH --time=1:00:00           # time (DD-HH:MM)
 #SBATCH --output=simjob.txt
 #SBATCH --mail-type=FAIL         # send an email if job aborted
