@@ -1,0 +1,50 @@
+### To transfer files from your computer to the server use Globus
+https://docs.alliancecan.ca/wiki/Globus
+
+### Server status
+https://status.alliancecan.ca/
+
+
+### In MobaXterm, To get in to the scratch folder to run simulations
+cd $SCRATCH
+
+### Open R and install all required packages
+
+module load intel/2019u4 gcc/8.3.0 r/4.1.2
+
+R
+
+install.packages("MASS")
+install.packages("tidyverse")
+
+q()
+
+
+### run script
+sbatch xxx.sh
+
+### if the following error occurs,
+SBATCH: error: Batch script contains DOS line breaks (\r\n)
+SBATCH: error: instead of expected UNIX line breaks (\n).
+### then run this
+
+dos2unix xxx.sh
+
+this converts the batch script into proper linux format, removing any peculiarities of Windows text file.
+
+
+### check status
+squeue -u $USER
+
+### cancel a job
+scancel -i JOBID
+
+### edit file
+vi filename
+
+press "i" for insert
+
+make edits
+
+to save changes and quit 
+:wq 
