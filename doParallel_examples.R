@@ -16,11 +16,12 @@ getDoParWorkers()# you can compare with the number of actual workers
 
 # Bootstrap example
 B <- 100000 # number of bootstrap iterations
+N <- 100    # sample size
 out <- foreach(icount(B), .combine=c) %dopar% {
   # simulate data from log normal distribution
   dat <- rlnorm(N)
   ind <- sample(N, N, replace = TRUE)
-  samp.median <- median(dat[ind])
+  samp.median <- median(dat[ind]) # compute median
 }
 
 # Bootstrap simulation example
@@ -53,3 +54,4 @@ out <- foreach(i=1:S, .combine=rbind) %:%
   }
 f <- function(x)quantile(x, c(0.025, 0.975))
 simout <- apply(out, 1, f)
+simout
