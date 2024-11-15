@@ -11,34 +11,50 @@ ncores
 
 registerDoParallel(cores=ncores)# Shows the number of Parallel Workers to be used
 print(ncores) # this how many cores are available, and how many you have requested.
-getDoParWorkers()# you can compare with the number of actual workers
 
-
+#-------------------------------------------------------------
 # Bootstrap example
+#-------------------------------------------------------------
 B <- 100000 # number of bootstrap iterations
 N <- 100    # sample size
+dat <- rlnorm(N)
 out <- foreach(icount(B), .combine=c) %dopar% {
   # simulate data from log normal distribution
-  dat <- rlnorm(N)
   ind <- sample(N, N, replace = TRUE)
   samp.median <- median(dat[ind]) # compute median
 }
 
-# Bootstrap simulation example
+#-------------------------------------------------------------
+# Bootstrap example with setting seed using doRNG package
+#-------------------------------------------------------------
+B <- 100000 # number of bootstrap iterations
+N <- 100    # sample size
+dat <- rlnorm(N)
+set.seed(2024)
+out <- foreach(icount(B), .combine=c) %dorng% {
+  # simulate data from log normal distribution
+  ind <- sample(N, N, replace = TRUE)
+  samp.median <- median(dat[ind]) # compute median
+}
+
+#-------------------------------------------------------------
+# Bootstrap simulation example -- NEED TO REWRITE THIS!!!!!!!
+#-------------------------------------------------------------
 B <- 1000 # number of bootstrap iterations
 S <- 10   # total number of simulations
 out <- foreach(icount(S), .combine=rbind) %:%
+  dat <- rlnorm(N)
   foreach(icount(B), .combine=c) %dopar% {
     # simulate data from log normal distribution
-    dat <- rlnorm(N)
     ind <- sample(N, N, replace = TRUE)
     samp.median <- median(dat[ind])
   }
 f <- function(x)quantile(x, c(0.025, 0.975))
 simout <- apply(out, 1, f)
 
-
+#-------------------------------------------------------------
 # Make it reproducible by setting seed with doRNG package (chrome-extension://efaidnbmnnnibpcajpcglclefindmkaj/https://dorng.r-forge.r-project.org/vignettes/doRNG.pdf)
+#-------------------------------------------------------------
 B <- 1000 # number of bootstrap iterations
 S <- 10   # total number of simulations
 rng <- RNGseq(B * S, 2024)
