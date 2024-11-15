@@ -34,16 +34,14 @@ registerDoParallel(cores=ncores)# Shows the number of Parallel Workers to be use
 rng <- RNGseq(B * S, 2024)
 out <- foreach(i=1:S, .combine=rbind) %:%
   foreach(j=1:B, r=rng[(i-1)*S+1:S], .combine=c) %dopar% {
-    # set RNG seed
-    rngtools::setRNG(r)
-    
-    # simulate data from log normal distribution
+    # simulate data from log normal distribution (make sure this is the same data for the bootstrap)
+    set.seed(2024+i)
     dat <- rlnorm(N)
+    # set RNG seed for the bootstrap
+    rngtools::setRNG(r)
     ind <- sample(N, N, replace = TRUE)
     samp.median <- median(dat[ind])
   }
-f <- function(x)quantile(x, c(0.025, 0.975))
-simout <- apply(out, 1, f)
 
 
 ### Output simulation results
@@ -51,4 +49,4 @@ outfile <- paste0("simout_N", N,
                   "_B", B,
                   ".txt")
 
-write.table(simout, outfile, col.names = T, row.names = F)
+write.table(out, outfile, col.names = T, row.names = F)
