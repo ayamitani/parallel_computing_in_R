@@ -40,11 +40,13 @@ out <- foreach(i=1:B, .combine=c) %dopar% {
 
 #-------------------------------------------------------------
 # Bootstrap simulation example 
+# wrap %dopar% by %do% but this probably takes longer than needed
 #-------------------------------------------------------------
-B <- 100 # number of bootstrap iterations
-S <- 10   # total number of simulations
-out <- foreach(i=1:S, .combine=rbind) %dopar% {
+B <- 1000 # number of bootstrap iterations
+S <- 1000   # total number of simulations
+out <- foreach(i=1:S, .combine=rbind) %do% {
   dat <- rlnorm(N)
+  print(i)
   foreach(j=1:B, .combine=c) %dopar% {
     # simulate data from log normal distribution
     ind <- sample(N, N, replace = TRUE)
