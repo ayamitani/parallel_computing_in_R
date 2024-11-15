@@ -24,8 +24,8 @@ if(length(args) == 0){
   for (i in (1:length(args))) eval(parse(text=args[[i]]))
 }
 
-ncores = Sys.getenv("SLURM_CPUS_PER_TASK")
-#ncores <- detectCores(all.tests = TRUE, logical = TRUE)
+#ncores = Sys.getenv("SLURM_CPUS_PER_TASK") # THIS GIVES AN ERROR ON THE CLUSTER, USE CODE BELOW
+ncores <- detectCores(all.tests = TRUE, logical = TRUE)
 ncores
 
 registerDoParallel(cores=ncores)# Shows the number of Parallel Workers to be used
