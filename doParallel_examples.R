@@ -54,7 +54,8 @@ f <- function(x)quantile(x, c(0.025, 0.975))
 simout <- apply(out, 1, f)
 
 #-------------------------------------------------------------
-# Make it reproducible by setting seed with doRNG package (chrome-extension://efaidnbmnnnibpcajpcglclefindmkaj/https://dorng.r-forge.r-project.org/vignettes/doRNG.pdf)
+# Make it reproducible by setting seed with doRNG package 
+# (chrome-extension://efaidnbmnnnibpcajpcglclefindmkaj/https://dorng.r-forge.r-project.org/vignettes/doRNG.pdf)
 #-------------------------------------------------------------
 B <- 100000 # number of bootstrap iterations
 S <- 10   # total number of simulations
